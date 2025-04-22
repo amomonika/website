@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>   
+    <title>Snake</title>
+</head>
+<body>
+    <div id="container">
+        <div class="userContainer"> 
+            <span id="usernameDisplay">loading user...</span>
+            <button id="logoutButton" onclick="logOut()">Log out</button>
+        </div>
+
+        <div id="speedSelector">
+            <label for="speed">Speed:</label>
+            <select id="speed" name="speed">
+                <option value="200">Slow</option>
+                <option value="100">Normal</option>
+                <option value="75">Fast</option>
+            </select>
+            <label for="col">Color:</label>
+            <select id="col" name="col">
+                <option value="darkgreen">Green</option>
+                <option value="blue">Blue</option>
+                <option value="darkred">Red</option>
+                <option value="yellow">Yellow</option>
+            </select>
+        </div>
+        <div id="b">
+            <canvas id="canvas" width="616" height="544"></canvas>
+        </div>
+        
+        <div id="table-div">
+            <h2>
+                Scoreboard
+            </h2>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Score</th>
+                        <th>Speed</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="scripts/snake.js"></script>
+</body>
+</html>

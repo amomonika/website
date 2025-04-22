@@ -1,0 +1,182 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+.formContainer {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+#registerContainer {
+    display: none;
+}
+.formContainer h1 {
+    margin-bottom: 20px;
+}
+.formContainer form {
+    display: flex;
+    flex-direction: column;
+}
+.formContainer input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.formContainer button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.formContainer button:hover {
+    background-color: #0056b3;
+}
+.link{
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.userContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    height: 40px;
+}
+
+#usernameDisplay {
+    font-weight: bold;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#logoutButton {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    height: 100%;
+}
+
+#logoutButton:hover {
+    background-color: #0056b3;
+}
+
+/* Universal navigation links container */
+.navLinksContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between links */
+    z-index: 10;
+}
+
+/* Style for individual navigation cards */
+.navCard {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navCard h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.navCard p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.navCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Style for navigation links */
+.navLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Style for the game link container */
+.gameLinkContainer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the game card */
+.gameCard {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gameCard h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.gameCard p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.gameCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Style for the game link */
+.gameLink {
+    text-decoration: none;
+    color: inherit;
+}
+
