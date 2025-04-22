@@ -173,15 +173,16 @@ function gameOver(){
     if(snake[0].x<1 || snake[0].x>cols || snake[0].y<1 || snake[0].y>rows || double){   //Bedingungen fürs Verlieren
         start=false;
         document.getElementById("speed").disabled = false; // Disable
-        if(score!=0){
+        if(score > user.snakeHighscore){
             const speedSelect = document.querySelector("#speed")
             let speed = speedSelect.options[speedSelect.selectedIndex].text;
+            user.snakeHighscore = score;
+            user.snakeSpeed = speed;
             updateHighscore(score, speed)
             .then(() => loadPlayers())
             .then(() => updateTable())
-            score = 0;
         }
-        
+        score = 0;
     }    
 }
 
@@ -247,7 +248,6 @@ async function updateHighscore(highscore, speed){
             console.error('Error updating highscore:', data.message);
             return;
         }
-        console.log('Updated Highscore')
     }
     catch(err){
         console.error('Error updating highscore:', err);
@@ -279,4 +279,9 @@ function updateTable(){
 
         tableBody.appendChild(row);
     });
+}
+
+function logOut(){
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
 }

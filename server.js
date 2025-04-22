@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
 
-const supabaseUrl = 'https://gvdgcxotqxkemfljxxff.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2ZGdjeG90cXhrZW1mbGp4eGZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ2MzA5MDIsImV4cCI6MjA2MDIwNjkwMn0.yrvEi7R1MhtPV4pYmxDu6eSoCZPfKAWLW3aC_vF4JL0';
+const supabaseUrl = process.env.DB_URL;
+const supabaseKey = process.env.JWT_SECRET;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Middleware
@@ -41,7 +43,7 @@ app.post('/api/login', async (req, res) => {
 // Register endpoint (plain text)
 app.post('/api/register', async (req, res) => {
     const { username, password } = req.body;
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     try {
         // Check if user exists
         const { data: existingUser, error: checkError } = await supabase
@@ -53,6 +55,7 @@ app.post('/api/register', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
+
 
         const { data, error } = await supabase
             .from('Users')
