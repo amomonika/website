@@ -4,7 +4,7 @@ async function submitLogin(event) {
     const username = document.querySelector('#loginForm input[type="text"]').value.trim();
     const password = document.querySelector('#loginForm input[type="password"]').value.trim();
 
-    const response = await fetch('http://localhost:3000/api/login', {
+    const response = await fetch('http://0.0.0.0:3000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -28,7 +28,7 @@ async function submitRegister(event) {
     const username = document.querySelector('#registerForm input[type="text"]').value.trim();
     const password = document.querySelector('#registerForm input[type="password"]').value.trim();
 
-    const response = await fetch('http://localhost:3000/api/register', {
+    const response = await fetch('http://0.0.0.0:3000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
