@@ -14,9 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-  }));
+app.use(cors());
 
 
 app.post('/api/login', async (req, res) => {
