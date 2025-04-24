@@ -77,7 +77,7 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-app.get('/api/getHighscores', async (req, res) => {
+app.post('/api/getHighscores', async (req, res) => {
     try{
         const {data: players, error} = await supabase
         .from('Users')
