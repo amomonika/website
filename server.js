@@ -14,7 +14,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://127.0.0.1:5500',
+  }));
 
 
 app.post('/api/login', async (req, res) => {
@@ -33,6 +35,7 @@ app.post('/api/login', async (req, res) => {
 
         if(!passwordMatch)  {return res.status(400).json({message: "Invalid username or password"})}
 
+        delete user.password;
         console.log('User logged in:', username);
         res.json({ message: 'Login successful', user: user});
 
@@ -66,6 +69,7 @@ app.post('/api/register', async (req, res) => {
             
         if (insertError)  {return res.status(500).json({ message: 'Error registering user', insertError });}
 
+        delete user.password;
         console.log('User registered:', username);
         res.status(201).json({ message: 'User registered successfully', user}); 
     } 
@@ -113,6 +117,6 @@ app.post('/api/updateHighscore', async (req, res) => {
 
 });
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
