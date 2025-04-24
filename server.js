@@ -21,18 +21,21 @@ app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const { data, error } = await supabase
+        const { data: user, error } = await supabase
             .from('Users')
             .select('*')
             .eq('username', username)
-            .eq('password', password) // bycrypted password check
             .single();
 
-        if (error || !data) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
+        if (error || !user) {return res.status(400).json({ message: 'Invalid username or password' })}
+
+        const passwordMatch = await bcrypt.compare(password, user.password)
+
+        if(!passwordMatch)  {return res.status(400).json({message: "Invalid username or password"})}
+
         console.log('User logged in:', username);
-        res.json({ message: 'Login successful', user: data });
+        res.json({ message: 'Login successful', user: user});
+
     } catch (err) {
         console.error('Login error:', err);
         res.status(500).json({ message: 'Server error' });
@@ -50,24 +53,21 @@ app.post('/api/register', async (req, res) => {
             .from('Users')
             .select('*')
             .eq('username', username)
-            .single();
+            .maybeSingle();
 
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
+        if (existingUser)   {return res.status(400).json({ message: 'User already exists' });}
 
 
-        const { data, error } = await supabase
+        const { data: user, error: insertError} = await supabase
             .from('Users')
-            .insert([{ username, password }])
+            .insert([{ username: username, password: hashedPassword }])
             .select('*')
             .single();
             
-        if (error) {
-            return res.status(500).json({ message: 'Error registering user', error });
-        }
+        if (insertError)  {return res.status(500).json({ message: 'Error registering user', insertError });}
+
         console.log('User registered:', username);
-        res.status(201).json({ message: 'User registered successfully', user: data }); 
+        res.status(201).json({ message: 'User registered successfully', user}); 
     } 
     catch (err) {
         console.error('Register error:', err);
@@ -77,15 +77,15 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/getHighscores', async (req, res) => {
     try{
-        const {data, error} = await supabase
+        const {data: players, error} = await supabase
         .from('Users')
         .select('username, snakeHighscore, snakeSpeed');
 
         if(error){
-            console.log('Error fetching highscores')
+            console.log('Supabase error in getHighscores')
             return res.status(500).json({ message: 'Error fetching highscores', error });
         }
-        res.status(200).json({ message: 'Highscores retrieved successfully', players: data });
+        res.status(200).json({ message: 'Highscores retrieved successfully', players});
     }
     catch (err) {
         console.error('Register error:', err);
