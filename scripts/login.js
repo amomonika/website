@@ -4,7 +4,7 @@ async function submitLogin(event) {
     const username = document.querySelector('#loginForm input[type="text"]').value.trim();
     const password = document.querySelector('#loginForm input[type="password"]').value.trim();
 
-    const response = await fetch('http://87.162.115.144:3000/api/login', {
+    const response = await fetch('79.236.195.92:3000/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
