@@ -28,7 +28,7 @@ async function submitRegister(event) {
     const username = document.querySelector('#registerForm input[type="text"]').value.trim();
     const password = document.querySelector('#registerForm input[type="password"]').value.trim();
 
-    const response = await fetch('http://87.162.115.144:3000/api/register', {
+    const response = await fetch('http://79.236.195.92:3000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

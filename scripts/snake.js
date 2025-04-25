@@ -215,7 +215,7 @@ function gameLoop(){
 
 async function loadPlayers() {
     try{
-        const response = await fetch('http://87.162.115.144:3000/api/getHighscores', {
+        const response = await fetch('http://79.236.195.92:3000/api/getHighscores', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -232,7 +232,7 @@ async function loadPlayers() {
 
 async function updateHighscore(highscore, speed){
     try{
-        const response = await fetch('http://87.162.115.144:3000/api/updateHighscore', {
+        const response = await fetch('http://79.236.195.92:3000/api/updateHighscore', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
