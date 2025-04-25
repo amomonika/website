@@ -1,4 +1,4 @@
-const serverUrl = 'http://amomonika.duckdns.org'
+const serverUrl = 'https://amomonika.duckdns.org'
 const port = 3000
 
 async function submitLogin(event) {
