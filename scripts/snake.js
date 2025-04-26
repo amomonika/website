@@ -5,6 +5,8 @@ if (!user) {
 } else {
     document.querySelector('#usernameDisplay').textContent = user.username;
 }
+
+const serverUrl = 'https://amomonika.duckdns.org'
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -215,7 +217,7 @@ function gameLoop(){
 
 async function loadPlayers() {
     try{
-        const response = await fetch('https://79.236.195.92:3000/api/getHighscores', {
+        const response = await fetch(`${serverUrl}/api/getHighscores`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -232,7 +234,7 @@ async function loadPlayers() {
 
 async function updateHighscore(highscore, speed){
     try{
-        const response = await fetch('https://79.236.195.92:3000/api/updateHighscore', {
+        const response = await fetch(`${serverUrl}/api/updateHighscores`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
