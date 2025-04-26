@@ -16,9 +16,10 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 app.use(bodyParser.json());
 
 const corsOptions = {
-    origin: 'https://amomonika.github.io'
+    origin: 'https://amomonika.github.io',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
 };
-
 
 app.use(cors(corsOptions));
 
