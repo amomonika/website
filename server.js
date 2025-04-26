@@ -117,10 +117,7 @@ app.post('/api/updateHighscore', async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 
-    if (newHighscore <= oldHighscore){
-        console.log("old highscore higher, old: ", oldHighscore, "new:", newHighscore);
-        return;
-    }
+    if (newHighscore <= oldHighscore){return};
 
     try{
         const {error: updateError} = await supabase
