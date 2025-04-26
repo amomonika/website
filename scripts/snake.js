@@ -1,3 +1,6 @@
+const productionMode = true;
+const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000';  
+
 const user = JSON.parse(localStorage.getItem('user'));
 if (!user) {
     console.log('No user found, redirecting to login page...');
@@ -6,15 +9,16 @@ if (!user) {
     document.querySelector('#usernameDisplay').textContent = user.username;
 }
 
-let gameOverAlreadyHandled = false;
-const productionMode = false;
-const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000';  
+
+
+
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
 let players = [];    
 let score = 0;
 let start=false;
+let gameOverAlreadyHandled = false;
 let direction="right";
 let lastDirection="right";
 let cols = 17;
