@@ -234,7 +234,7 @@ async function loadPlayers() {
 
 async function updateHighscore(highscore, speed){
     try{
-        const response = await fetch(`${serverUrl}/api/updateHighscores`, {
+        const response = await fetch(`${serverUrl}/api/updateHighscore`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
