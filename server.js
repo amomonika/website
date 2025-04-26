@@ -96,24 +96,51 @@ app.post('/api/getHighscores', async (req, res) => {
 });
 
 app.post('/api/updateHighscore', async (req, res) => {
+    const {username, highscore: newHighscore, speed: newSpeed} = req.body
+    let oldHighscore
+    
     try{
-        const {username, highscore, speed} = req.body
-        
-        const {error} = await supabase
+        const {data, error: selectError} = await supabase
         .from('Users')
-        .update({snakeHighscore: highscore, snakeSpeed: speed})
+        .select('snakeHighscore')
         .eq('username', username)
-        if(error){
-            return res.status(500).json({ message: 'Error updating highscore', error: error });
+        .single()
+
+        if(selectError){
+            return res.status(500).json({ message: 'DbError selecting old Highscore', error: selectError});
         }
-        return res.status(200).json({ message: 'Highscore updated successfully' });
+    
+        oldHighscore = data.snakeHighscore;
     }
-    catch (err) {
-        console.error('Error updating highscore:', err);
-        res.status(500).json({ message: 'Server error' });
+    catch(err){
+        console.log("Error while selecting old Highscore for comparison:", err);
+        return res.status(500).json({ message: 'Server error' });
     }
 
+    if (newHighscore <= oldHighscore){
+        console.log("old highscore higher, old: ", oldHighscore, "new:", newHighscore);
+        return;
+    }
+
+    try{
+        const {error: updateError} = await supabase
+        .from('Users')
+        .update({snakeHighscore: newHighscore, snakeSpeed: newSpeed})
+        .eq('username', username)
+
+        if(updateError){
+            return res.status(500).json({ message: 'DbError updating highscore', error: updateError });
+        }
+
+        console.log("Updated highscore of player:", username, "from", oldHighscore, "to", newHighscore)
+        return res.status(200).json({ message: 'Highscore updated successfully' });
+    }
+    catch(err){
+        console.log("Error while updating old Highscore for comparison:", err);
+        return res.status(500).json({ message: 'Server error' });
+    }
 });
+
 // Start server
 app.listen(PORT, 'localhost', () => {
     console.log(`Server running on https://localhost:${PORT}`);

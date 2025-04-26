@@ -6,13 +6,14 @@ if (!user) {
     document.querySelector('#usernameDisplay').textContent = user.username;
 }
 
-const serverUrl = 'https://amomonika.duckdns.org'
+let gameOverAlreadyHandled = false;
+const productionMode = false;
+const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000';  
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
 let players = [];    
 let score = 0;
-let restart=false;
 let start=false;
 let direction="right";
 let lastDirection="right";
@@ -68,10 +69,8 @@ function keyDown(e){
     if (e.key == 's' && direction != "top" && lastDirection != "top") {
         direction = "bot";
     }
-    restart=false;
     if (e.key == ' ') {
         start = true;
-        restart=true;
         document.getElementById("speed").disabled = true; // Disable
     }
 }
@@ -167,49 +166,39 @@ function existInSnake(x,y){
 
 
 function gameOver(){
+    if(gameOverAlreadyHandled){return};
+
     let snakeHead = snake[0];
     let snakeBody = snake.slice(1);
     let double = snakeBody.find(f => f.x == snakeHead.x && f.y == snakeHead.y)   //checkt ob erste Element des Arrays Snake die gleichen Koordinaten wie eines der anderen hat
+    let isLost = snake[0].x<1 || snake[0].x>cols || snake[0].y<1 || snake[0].y>rows || double //Bedingungen fürs Verlieren
 
 
-    if(snake[0].x<1 || snake[0].x>cols || snake[0].y<1 || snake[0].y>rows || double){   //Bedingungen fürs Verlieren
+    if(isLost){   
         start=false;
-        document.getElementById("speed").disabled = false; // Disable
-        if(score > user.snakeHighscore){
-            const speedSelect = document.querySelector("#speed")
-            let speed = speedSelect.options[speedSelect.selectedIndex].text;
-            user.snakeHighscore = score;
-            user.snakeSpeed = speed;
-            updateHighscore(score, speed)
-            .then(() => loadPlayers())
-            .then(() => updateTable())
-        }
-        score = 0;
+        gameOverAlreadyHandled = true;
+        document.getElementById("speed").disabled = false; // Enable
+
+        const speedSelect = document.querySelector("#speed")
+        let speed = speedSelect.options[speedSelect.selectedIndex].text;
+
+        updateHighscore(score, speed)
+        .then(() => loadPlayers())
+        .then(() => updateTable())
+
+        direction="right";
+        lastDirection="right";
+        snake = [ {x:7,y:8}, {x:6,y:8}, {x:5,y:8} ];
+        apple = {x: 11, y: 8};
+        gameOverAlreadyHandled = false;
+        score = 0;  
     }    
 }
 
 
-
-function playAgain(){                       //resettet alle variablen beim restarten
-    if(start==false && restart==true){
-        direction="right";
-        lastDirection="right";
-        snake = [
-            {x:7,y:8},
-            {x:6,y:8},
-            {x:5,y:8}
-        ]
-        apple = {
-            x: 11,
-            y: 8
-        };
-    }
-    
-}
-
 function gameLoop(){
     gameOver()
-    playAgain()
+    if(gameOverAlreadyHandled){return}
     bg()
     snk()
     apl()
@@ -239,8 +228,8 @@ async function updateHighscore(highscore, speed){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 username: user.username,
-                highscore,
-                speed
+                highscore: highscore,
+                speed: speed
             })
         });
 
