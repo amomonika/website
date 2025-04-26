@@ -14,7 +14,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
+const corsOptions = {
+    origin: 'https://amomonika.github.io'
+};
+
+
+app.use(cors(corsOptions));
 
 
 app.post('/api/login', async (req, res) => {
