@@ -311,6 +311,8 @@ async function updateHighscore(highscore, speed){
 
 function updateTable(){
 
+    console.log("updateTable!");
+
     const tableBody = document.querySelector("#table tbody");
     tableBody.innerHTML = "";
 
