@@ -12,6 +12,10 @@ if (!user) {
 
 
 const snakeBite = document.getElementById("snakeBite");
+const boom = document.getElementById("boom");
+
+
+
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -242,7 +246,7 @@ function gameOver(){
         .then(() => updateTable())
 
         console.log("Final score:", score, "playing on", speed);
-
+        boom.play();
         direction="right";
         lastDirection="right";
         document.getElementById("scoreDisplay").textContent = "---";
