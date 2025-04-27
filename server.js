@@ -21,7 +21,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type']
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 app.post('/api/login', async (req, res) => {
@@ -83,7 +83,7 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
+/*
 app.post('/api/getHighscores', async (req, res) => {
     try{
         const {data: players, error} = await supabase
@@ -101,23 +101,45 @@ app.post('/api/getHighscores', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+*/
+app.post('/api/getAllHighscores', async (req, res) => {
+    try{
+        const {data: players, error} = await supabase
+        .from('Users')
+        .select('username, scoreSlow, scoreNormal, scoreFast');
+
+        if(error){
+            console.log('Supabase error in getHighscores')
+            return res.status(500).json({ message: 'Error fetching allHighscores', error });
+        }
+        res.status(200).json({ message: 'Highscores retrieved successfully', players});
+    }
+    catch (err) {
+        console.error('Register error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 
 app.post('/api/updateHighscore', async (req, res) => {
-    const {username, highscore: newHighscore, speed: newSpeed} = req.body
-    let oldHighscore
+    const {username, highscore: newHighscore, speed: speed} = req.body
+    let oldHighscore;
+    const speedField = 'score' + speed
+
     
     try{
         const {data, error: selectError} = await supabase
         .from('Users')
-        .select('snakeHighscore')
+        .select(speedField)
         .eq('username', username)
         .single()
 
         if(selectError){
+            console.log("DbError selecting old Highscore", selectError);
             return res.status(500).json({ message: 'DbError selecting old Highscore', error: selectError});
         }
     
-        oldHighscore = data.snakeHighscore;
+        oldHighscore = data[speedField];
     }
     catch(err){
         console.log("Error while selecting old Highscore for comparison:", err);
@@ -129,14 +151,14 @@ app.post('/api/updateHighscore', async (req, res) => {
     try{
         const {error: updateError} = await supabase
         .from('Users')
-        .update({snakeHighscore: newHighscore, snakeSpeed: newSpeed})
+        .update({[speedField]: newHighscore})
         .eq('username', username)
 
         if(updateError){
             return res.status(500).json({ message: 'DbError updating highscore', error: updateError });
         }
 
-        console.log("Updated highscore of player:", username, "from", oldHighscore, "to", newHighscore)
+        console.log("Updated highscore of player", username, "with speed", speed, "from", oldHighscore, "to", newHighscore)
         return res.status(200).json({ message: 'Highscore updated successfully' });
     }
     catch(err){

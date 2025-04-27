@@ -62,6 +62,17 @@ document.getElementById("speed").addEventListener("input", function () {
 document.addEventListener("keydown", keyDown)
 
 function keyDown(e){
+    
+
+    if (e.key == ' ') {
+        start = true;
+        document.getElementById("speed").disabled = true; // Disable
+        gameOverAlreadyHandled = false;
+    }
+
+    if(!start){return};
+
+    
     nextInput = inputs[0]
 
     if (e.key == 'a' && nextInput != "left" && nextInput != "right") {
@@ -103,11 +114,6 @@ function keyDown(e){
             return inputs[0] = "bot";
         }
     }
-
-    if (e.key == ' ') {
-        start = true;
-        document.getElementById("speed").disabled = true; // Disable
-    }
 }
 
 //Hintergrund erstellen
@@ -125,86 +131,68 @@ function bg(){
         x = 4
         y = y+36;
     }
-    y = 4
 }
 
 //
 function snk(){
+    if(!start){return};
 
-    //Richtung ändern
-    console.log(direction, "          ", inputs[0], inputs[1], "         ", lastDirection);
+    nextDirection = inputs[0];
 
-    if(start==true){
-
-        nextDirection = inputs[0];
-
-        if(nextDirection){
-            direction = nextDirection;
-        }
-
-        if(direction=="right"){
-            temp = {x:snake[0].x+1, y:snake[0].y}
-            snake.unshift(temp);
-            lastDirection = direction;
-            inputs[0] = inputs[1];
-            inputs[1] = null;
-
-        }
-        if(direction=="left"){
-            temp = {x:snake[0].x-1, y:snake[0].y}
-            snake.unshift(temp);
-            lastDirection = direction;
-            inputs[0] = inputs[1];
-            inputs[1] = null;
-        }
-        if(direction=="top"){
-            temp = {x:snake[0].x, y:snake[0].y-1}
-            snake.unshift(temp);
-            lastDirection = direction;
-            inputs[0] = inputs[1];
-            inputs[1] = null;
-        }
-        if(direction=="bot"){
-            temp = {x:snake[0].x, y:snake[0].y+1}
-            snake.unshift(temp);
-            lastDirection = direction;
-            inputs[0] = inputs[1];
-            inputs[1] = null;
-        }
-
-        //Apfel essen
-
-        if((snake[0].x)==(apple.x) && (snake[0].y)==(apple.y)){
-            randApple();
-            score++;
-        }
-        else{
-            f = snake.pop();    //letztes Element der Schlange entfernen
-        }
+    if(nextDirection){
+        direction = nextDirection;
     }
 
-    //Schlange auf canvas zeichnen
-    
+    if(direction=="right"){
+        temp = {x:snake[0].x+1, y:snake[0].y}
+        snake.unshift(temp);
+        lastDirection = direction;
+        inputs[0] = inputs[1];
+        inputs[1] = null;
+    }
+    if(direction=="left"){
+        temp = {x:snake[0].x-1, y:snake[0].y}
+        snake.unshift(temp);
+        lastDirection = direction;
+        inputs[0] = inputs[1];
+        inputs[1] = null;
+    }
+    if(direction=="top"){
+        temp = {x:snake[0].x, y:snake[0].y-1}
+        snake.unshift(temp);
+        lastDirection = direction;
+        inputs[0] = inputs[1];
+        inputs[1] = null;
+    }
+    if(direction=="bot"){
+        temp = {x:snake[0].x, y:snake[0].y+1}
+        snake.unshift(temp);
+        lastDirection = direction;
+        inputs[0] = inputs[1];
+        inputs[1] = null;
+    }
 
-    for(let l=0;l<snake.length;l++){
-        let a = snake[l].x;
-        ax = (a*36)-36+4;
-        let b = snake[l].y;
-        bx = (b*36)-36+4;
-        ctx.fillStyle = document.getElementById("col").value;
-        ctx.fillRect(ax,bx,32,32);
+    //Apfel essen
+
+    if((snake[0].x)==(apple.x) && (snake[0].y)==(apple.y)){
+        randApple();
+        score++;
+    }
+    else{
+        f = snake.pop();  
     }
 }
 
-//Apfel zeichnen
-function apl(){
-    let a = apple.x;
-    let ax = (a*36)-36+4
-    let b = apple.y;
-    let bx = (b*36)-36+4
+function drawApple(){
+    let x = apple.x;
+    let xPixel = (x*36)-36+4
+    let y = apple.y;
+    let yPixel = (y*36)-36+4
     ctx.fillStyle = 'red';
-    ctx.fillRect(ax,bx,32,32);
+    ctx.fillRect(xPixel,yPixel,32,32);
 }
+
+
 function randApple(){
     let x = apple.x;
     let y = apple.y;    
@@ -219,9 +207,19 @@ function existInSnake(x,y){
     return snake.some(coord => coord.x === x && coord.y === y);     //some --> mind. ein treffer, überprüft ob neuer Apfel in der Schlange vorkommt
 }
 
+function drawSnake(){
+    for(let l=0;l<snake.length;l++){
+        let x = snake[l].x;
+        let xPixel = (x*36)-36+4;
+        let y = snake[l].y;
+        let yPixel = (y*36)-36+4;
+        ctx.fillStyle = document.getElementById("col").value;
+        ctx.fillRect(xPixel,yPixel,32,32);
+    }
+}
+
 
 function gameOver(){
-    if(gameOverAlreadyHandled){return};
 
     let snakeHead = snake[0];
     let snakeBody = snake.slice(1);
@@ -241,28 +239,30 @@ function gameOver(){
         .then(() => loadPlayers())
         .then(() => updateTable())
 
+        console.log("Final score:", score, "playing on", speed);
+
         direction="right";
         lastDirection="right";
         inputs = []
         snake = [ {x:7,y:8}, {x:6,y:8}, {x:5,y:8} ];
         apple = {x: 11, y: 8};
-        gameOverAlreadyHandled = false;
         score = 0;  
     }    
 }
 
 
 function gameLoop(){
-    gameOver()
     if(gameOverAlreadyHandled){return}
+    gameOver()
     bg()
     snk()
-    apl()
+    drawSnake()
+    drawApple()
 }
 
 async function loadPlayers() {
     try{
-        const response = await fetch(`${serverUrl}/api/getHighscores`, {
+        const response = await fetch(`${serverUrl}/api/getAllHighscores`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -285,7 +285,7 @@ async function updateHighscore(highscore, speed){
             body: JSON.stringify({
                 username: user.username,
                 highscore: highscore,
-                speed: speed
+                speed : speed
             })
         });
 
@@ -307,26 +307,40 @@ function updateTable(){
     const tableBody = document.querySelector("#table tbody");
     tableBody.innerHTML = "";
 
-    players.sort((a,b) => b.snakeHighscore - a.snakeHighscore)
-    players.forEach(player => {
+    playersSlow = [...players].sort((a, b) => b.scoreSlow - a.scoreSlow);
+    playersNormal = [...players].sort((a, b) => b.scoreNormal - a.scoreNormal);
+    playersFast = [...players].sort((a, b) => b.scoreFast - a.scoreFast);
+
+    for(let i = 0; i < players.length; i++){
 
         const row = document.createElement("tr");
 
-        const nameCell = document.createElement("td");
-        nameCell.textContent = player.username;
-        row.appendChild(nameCell);
+        const usernameCellSlow = document.createElement("td");
+        const scoreCellSlow = document.createElement("td");
+        const usernameCellNormal = document.createElement("td");
+        const scoreCellNormal = document.createElement("td");
+        const usernameCellFast = document.createElement("td");
+        const scoreCellFast = document.createElement("td");
 
-        const scoreCell = document.createElement("td");
-        scoreCell.textContent = player.snakeHighscore || 0;
-        row.appendChild(scoreCell);
+        usernameCellSlow.textContent = playersSlow[i].username;
+        row.appendChild(usernameCellSlow);
+        scoreCellSlow.textContent = playersSlow[i].scoreSlow || "N/A";
+        row.appendChild(scoreCellSlow);
 
-        const speedCell = document.createElement("td");
-        speedCell.textContent = player.snakeSpeed || "N/A";
-        row.appendChild(speedCell);
+        usernameCellNormal.textContent = playersNormal[i].username;
+        row.appendChild(usernameCellNormal);
+        scoreCellNormal.textContent = playersNormal[i].scoreNormal || "N/A";
+        row.appendChild(scoreCellNormal);
+
+        usernameCellFast.textContent = playersFast[i].username;
+        row.appendChild(usernameCellFast);
+        scoreCellFast.textContent = playersFast[i].scoreFast || "N/A";
+        row.appendChild(scoreCellFast);
 
         tableBody.appendChild(row);
-    });
+    }
 }
+
 
 function logOut(){
     localStorage.removeItem('user');

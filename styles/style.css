@@ -173,10 +173,92 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
-/* Style for the game link */
 .gameLink {
     text-decoration: none;
     color: inherit;
 }
 
+
+
+
+/* Container Styling */
+#table-div {
+    padding: 10px; /* Reduced padding around the table */
+    overflow-x: auto; /* Allows horizontal scrolling if the table exceeds the container width */
+    margin-top: 0; /* No extra space on top */
+    margin-bottom: 0; /* Removed unnecessary bottom margin */
+}
+
+/* Specific Styling for Table Inside #table-div */
+#table-div table {
+    width: 100%; /* Makes table take full width of the container */
+    border-collapse: collapse; /* Removes spacing between table cells */
+    margin: 0; /* No extra margin */
+}
+
+/* Table Header Styling inside #table-div */
+#table-div th {
+    background-color: #333; /* Dark background for the header */
+    color: white; /* White text for the header */
+    padding: 12px 20px; /* Adds padding inside header cells */
+    text-align: left; /* Aligns header text to the left */
+    font-size: 16px; /* Slightly larger font for readability */
+}
+
+/* Table Body Styling inside #table-div */
+#table-div td {
+    background-color: #fff; /* White background for body cells */
+    color: #333; /* Dark text color */
+    padding: 12px 20px; /* Adds padding inside cells */
+    text-align: left; /* Aligns text to the left */
+    border-bottom: 1px solid #ddd; /* Subtle border between rows */
+}
+
+/* Add extra space between 2nd and 3rd column */
+#table-div td:nth-child(2),
+#table-div td:nth-child(3) {
+    padding-right: 40px; /* Adds extra space to the right side of column 2 */
+    padding-left: 40px;  /* Adds extra space to the left side of column 3 */
+}
+
+/* Add extra space between 4th and 5th column */
+#table-div td:nth-child(4),
+#table-div td:nth-child(5) {
+    padding-right: 40px; /* Adds extra space to the right side of column 4 */
+    padding-left: 40px;  /* Adds extra space to the left side of column 5 */
+}
+
+/* Table Row Hover Effect inside #table-div */
+#table-div tr:hover td {
+    background-color: #f1f1f1; /* Light grey hover effect for rows */
+}
+
+/* Even row styling for better readability inside #table-div */
+#table-div tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Slightly greyish background for even rows */
+}
+
+/* Responsive table styling (adds horizontal scrolling if needed) */
+@media (max-width: 768px) {
+    #table-div table {
+        width: 100%;
+    }
+    #table-div th, #table-div td {
+        padding: 10px 15px;
+    }
+}
+
+/* Centering #snakeDiv in the middle of the page */
+#snakeDiv {
+    display: flex;
+    justify-content: center; /* Horizontally centers the canvas */
+    align-items: center;     /* Vertically centers the canvas */
+    height: auto;            /* Auto height so canvas is centered without forcing viewport height */
+    margin-bottom: 10px;     /* Reduce space between canvas and table */
+}
+
+/* Canvas Styling */
+#canvas {
+    border: 2px solid black; /* Optional: Adds a border around the canvas */
+    margin-bottom: 0;         /* No extra space below canvas */
+}
