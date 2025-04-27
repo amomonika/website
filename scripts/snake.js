@@ -1,4 +1,4 @@
-const productionMode = false;
+const productionMode = true;
 const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000';  
 
 const user = JSON.parse(localStorage.getItem('user'));
