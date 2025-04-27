@@ -184,6 +184,8 @@ function snk(){
     }
 
     //Schlange auf canvas zeichnen
+    
+
     for(let l=0;l<snake.length;l++){
         let a = snake[l].x;
         ax = (a*36)-36+4;

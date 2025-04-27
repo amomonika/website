@@ -146,6 +146,6 @@ app.post('/api/updateHighscore', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, 'localhost', () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on https://localhost:${PORT}`);
 });
