@@ -1,4 +1,4 @@
-const productionMode = true;
+const productionMode = false;
 const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000';  
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -19,7 +19,8 @@ let players = [];
 let score = 0;
 let start=false;
 let gameOverAlreadyHandled = false;
-let direction="right";
+let inputs = [];
+let direction = "right";
 let lastDirection="right";
 let cols = 17;
 let rows = 15;
@@ -61,18 +62,48 @@ document.getElementById("speed").addEventListener("input", function () {
 document.addEventListener("keydown", keyDown)
 
 function keyDown(e){
-    if (e.key == 'a' && direction != "right" && lastDirection != "right") {
-        direction = "left";
+    nextInput = inputs[0]
+
+    if (e.key == 'a' && nextInput != "left" && nextInput != "right") {
+        if(nextInput){
+            inputs[1] = "left";
+            return;
+        }
+        if(lastDirection != "left" && lastDirection != "right"){
+            return inputs[0] = "left";
+        }
     }
-    if (e.key == 'w' && direction != "bot" && lastDirection != "bot") {
-        direction = "top";
+    
+    if (e.key == 'd' && nextInput != "left" && nextInput != "right") {
+        if(nextInput){
+            inputs[1] = "right";
+            return;
+        }
+        if(lastDirection != "left" && lastDirection != "right"){
+            return inputs[0] = "right";
+        }
     }
-    if (e.key == 'd' && direction != "left" && lastDirection != "left") {
-        direction = "right";
+
+    if (e.key == 'w' && nextInput != "top" && nextInput != "bot") {
+        if(nextInput){
+            inputs[1] = "top";
+            return;
+        }
+        if(lastDirection != "top" && lastDirection != "bot"){
+            return inputs[0] = "top";
+        }
     }
-    if (e.key == 's' && direction != "top" && lastDirection != "top") {
-        direction = "bot";
+
+    if (e.key == 's' && nextInput != "top" && nextInput != "bot") {
+        if(nextInput){
+            inputs[1] = "bot";
+            return;
+        }
+        if(lastDirection != "top" && lastDirection != "bot"){
+            return inputs[0] = "bot";
+        }
     }
+
     if (e.key == ' ') {
         start = true;
         document.getElementById("speed").disabled = true; // Disable
@@ -101,27 +132,44 @@ function bg(){
 function snk(){
 
     //Richtung ändern
+    console.log(direction, "          ", inputs[0], inputs[1], "         ", lastDirection);
 
     if(start==true){
-        if(direction=="right" && lastDirection!="left"){
+
+        nextDirection = inputs[0];
+
+        if(nextDirection){
+            direction = nextDirection;
+        }
+
+        if(direction=="right"){
             temp = {x:snake[0].x+1, y:snake[0].y}
             snake.unshift(temp);
             lastDirection = direction;
+            inputs[0] = inputs[1];
+            inputs[1] = null;
+
         }
-        if(direction=="left" && lastDirection!="right"){
+        if(direction=="left"){
             temp = {x:snake[0].x-1, y:snake[0].y}
             snake.unshift(temp);
             lastDirection = direction;
+            inputs[0] = inputs[1];
+            inputs[1] = null;
         }
-        if(direction=="top" && lastDirection!="bot"){
+        if(direction=="top"){
             temp = {x:snake[0].x, y:snake[0].y-1}
             snake.unshift(temp);
             lastDirection = direction;
+            inputs[0] = inputs[1];
+            inputs[1] = null;
         }
-        if(direction=="bot" && lastDirection!="top"){
+        if(direction=="bot"){
             temp = {x:snake[0].x, y:snake[0].y+1}
             snake.unshift(temp);
             lastDirection = direction;
+            inputs[0] = inputs[1];
+            inputs[1] = null;
         }
 
         //Apfel essen
@@ -134,6 +182,7 @@ function snk(){
             f = snake.pop();    //letztes Element der Schlange entfernen
         }
     }
+
     //Schlange auf canvas zeichnen
     for(let l=0;l<snake.length;l++){
         let a = snake[l].x;
@@ -192,6 +241,7 @@ function gameOver(){
 
         direction="right";
         lastDirection="right";
+        inputs = []
         snake = [ {x:7,y:8}, {x:6,y:8}, {x:5,y:8} ];
         apple = {x: 11, y: 8};
         gameOverAlreadyHandled = false;

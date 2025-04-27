@@ -1,4 +1,4 @@
-const productionMode = true;
+const productionMode = false;
 const serverUrl = productionMode ? 'https://amomonika.duckdns.org' : 'http://localhost:3000'; 
 
 async function submitLogin(event) {
