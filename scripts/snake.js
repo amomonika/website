@@ -11,7 +11,7 @@ if (!user) {
 
 
 
-
+const snakeBite = document.getElementById("snakeBite");
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
@@ -75,7 +75,7 @@ function keyDown(e){
     
     nextInput = inputs[0]
 
-    if (e.key == 'a' && nextInput != "left" && nextInput != "right") {
+    if ((e.key == 'a' || e.key == 'ArrowLeft') && nextInput != "left" && nextInput != "right") {
         if(nextInput){
             inputs[1] = "left";
             return;
@@ -85,7 +85,7 @@ function keyDown(e){
         }
     }
     
-    if (e.key == 'd' && nextInput != "left" && nextInput != "right") {
+    if ((e.key == 'd' || e.key == 'ArrowRight') && nextInput != "left" && nextInput != "right") {
         if(nextInput){
             inputs[1] = "right";
             return;
@@ -95,7 +95,7 @@ function keyDown(e){
         }
     }
 
-    if (e.key == 'w' && nextInput != "top" && nextInput != "bot") {
+    if ((e.key == 'w' || e.key == 'ArrowUp') && nextInput != "top" && nextInput != "bot") {
         if(nextInput){
             inputs[1] = "top";
             return;
@@ -105,7 +105,7 @@ function keyDown(e){
         }
     }
 
-    if (e.key == 's' && nextInput != "top" && nextInput != "bot") {
+    if ((e.key == 's' || e.key == 'ArrowDown') && nextInput != "top" && nextInput != "bot") {
         if(nextInput){
             inputs[1] = "bot";
             return;
@@ -177,6 +177,8 @@ function snk(){
     if((snake[0].x)==(apple.x) && (snake[0].y)==(apple.y)){
         randApple();
         score++;
+        snakeBite.play();
+        document.getElementById("scoreDisplay").textContent = score;
     }
     else{
         f = snake.pop();  
@@ -243,6 +245,7 @@ function gameOver(){
 
         direction="right";
         lastDirection="right";
+        document.getElementById("scoreDisplay").textContent = "---";
         inputs = []
         snake = [ {x:7,y:8}, {x:6,y:8}, {x:5,y:8} ];
         apple = {x: 11, y: 8};

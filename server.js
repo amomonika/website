@@ -83,25 +83,7 @@ app.post('/api/register', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-/*
-app.post('/api/getHighscores', async (req, res) => {
-    try{
-        const {data: players, error} = await supabase
-        .from('Users')
-        .select('username, snakeHighscore, snakeSpeed');
 
-        if(error){
-            console.log('Supabase error in getHighscores')
-            return res.status(500).json({ message: 'Error fetching highscores', error });
-        }
-        res.status(200).json({ message: 'Highscores retrieved successfully', players});
-    }
-    catch (err) {
-        console.error('Register error:', err);
-        res.status(500).json({ message: 'Server error' });
-    }
-});
-*/
 app.post('/api/getAllHighscores', async (req, res) => {
     try{
         const {data: players, error} = await supabase

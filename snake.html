@@ -14,7 +14,7 @@
             <button id="logoutButton" onclick="logOut()">Log out</button>
         </div>
 
-        <div id="speedSelector">
+        <div id="selector">
             <label for="speed">Speed:</label>
             <select id="speed" name="speed">
                 <option value="200">Slow</option>
@@ -29,11 +29,14 @@
                 <option value="yellow">Yellow</option>
             </select>
         </div>
+        <div id="scoreDiv">
+            <span id="scoreDisplay">---</span>
+        </div>
         <div id="snakeDiv">
             <canvas id="canvas" width="616" height="544"></canvas>
         </div>
         
-        <div id="table-div">
+        <div id="tableDiv">
             <h2>
                 Scoreboard
             </h2>
@@ -54,6 +57,8 @@
             </table>
         </div>
     </div>
+
+    <audio id="snakeBite" src="audio/snakeBite.mp3"></audio>
     
     <script src="scripts/snake.js"></script>
 </body>
