@@ -140,6 +140,7 @@ function bg(){
 //
 function snk(){
     if(!start){return};
+    document.getElementById("scoreDisplay").textContent = score;
 
     nextDirection = inputs[0];
 
@@ -182,7 +183,6 @@ function snk(){
         randApple();
         score++;
         snakeBite.play();
-        document.getElementById("scoreDisplay").textContent = score;
     }
     else{
         f = snake.pop();  
@@ -249,7 +249,6 @@ function gameOver(){
         boom.play();
         direction="right";
         lastDirection="right";
-        document.getElementById("scoreDisplay").textContent = "---";
         inputs = []
         snake = [ {x:7,y:8}, {x:6,y:8}, {x:5,y:8} ];
         apple = {x: 11, y: 8};

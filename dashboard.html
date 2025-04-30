@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles/style.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="userContainer"> 
-        <span id="usernameDisplay">loading user...</span>
-        <button id="logoutButton" onclick="logOut()">Log out</button>
+    <!-- Top right container -->
+    <div class="d-flex justify-content-end align-items-center p-3 bg-light shadow-sm">
+        <span id="usernameDisplay" class="me-3 text-primary fw-semibold">loading user...</span>
+        <button id="logoutButton" class="btn btn-outline-danger btn-sm" onclick="logOut()">Log out</button>
     </div>
 
-    <!-- Universal navigation links container -->
-    <div class="navLinksContainer">
-        <a href="snake.html" class="navLink">
-            <div class="navCard">
-                <h2>Play Snake</h2>
+    <div class="container mt-5">
+        <a href="snake.html" class="text-decoration-none">
+            <div class="card text-center p-3">
+                <h2 class="m-0">Play Snake</h2>
             </div>
         </a>
-        <!-- Add more links here in the future -->
     </div>
 
     <script src="scripts/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
