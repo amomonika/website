@@ -30,7 +30,6 @@ async function submitLogin(event) {
         console.log("Error loggin in:", err)
     }
 
-    
 }
 document.querySelector('#loginForm').addEventListener('submit', submitLogin);
 
