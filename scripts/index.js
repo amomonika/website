@@ -55,6 +55,7 @@ async function submitRegister(event) {
         alert(data.message);
     }
 }
+
 document.querySelector('#registerForm').addEventListener('submit', submitRegister);
 
 function changeToRegister(){
