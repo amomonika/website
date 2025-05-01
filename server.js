@@ -25,6 +25,7 @@ app.use(cors(corsOptions));
 
 
 app.post('/api/login', async (req, res) => {
+    console.log('Incoming request Origin header:', req.headers.origin);
     const { username, password } = req.body;
 
     try {
@@ -140,7 +141,7 @@ app.post('/api/updateHighscore', async (req, res) => {
             return res.status(500).json({ message: 'DbError updating highscore', error: updateError });
         }
 
-        console.log("Updated highscore of player", username, "with speed", speed, "from", oldHighscore, "to", newHighscore)
+        console.log("Updated highscore of player ", username, "with speed", speed, "from", oldHighscore, "to", newHighscore)
         return res.status(200).json({ message: 'Highscore updated successfully' });
     }
     catch(err){
