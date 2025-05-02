@@ -69,6 +69,7 @@ function keyDown(e){
     
 
     if (e.key == ' ') {
+        e.preventDefault();
         start = true;
         document.getElementById("speed").disabled = true; // Disable
         gameOverAlreadyHandled = false;
